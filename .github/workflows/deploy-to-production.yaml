@@ -1,0 +1,29 @@
+name: Production Deployment
+
+on:
+  workflow_run:
+    workflows:
+      - Development Build
+    types:
+      - completed
+
+jobs:
+  approve-and-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait for approval
+        uses: hmarr/auto-approve-action@v2
+        with:
+          label: "Production Deployment Approval"
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-artifact
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          # Add your deployment commands here
