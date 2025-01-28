@@ -12,16 +12,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Request approval to deploy
-        run: echo "Please manually trigger this job for production deployment."
+    environment:
+      name: production  # This step will pause for approval
 
-      - name: Await manual approval
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: 'deploy.yml'  # Adjust to the name of the deploy workflow file
-          ref: refs/heads/main    # Specify the branch to use for triggering the deployment
-          
+    steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
@@ -30,4 +24,4 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production..."
-          # Add your deployment commands here
+          # Your deployment commands here
