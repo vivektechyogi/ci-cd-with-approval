@@ -15,11 +15,11 @@ jobs:
     environment:
       name: production  # This step will pause for approval
 
-    # steps:
-    #   - name: Download artifact
-    #     uses: actions/download-artifact@v3
-    #     with:
-    #       name: production-artifact
+    steps:
+      # - name: Download artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: production-artifact
 
       - name: Deploy to production
         run: |
